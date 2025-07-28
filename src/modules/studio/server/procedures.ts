@@ -30,7 +30,7 @@ export const studioRouter = createTRPCRouter({
         z.object({
             cursor: z.object({
                 id: z.string().uuid(),
-                updateAt: z.date(),
+                updatedAt: z.date(),
             })
             .nullish(),
             limit: z.number().min(1).max(100),
@@ -48,9 +48,9 @@ export const studioRouter = createTRPCRouter({
             (eq(videos.userId, userID),
             cursor
                 ? or(
-                    lt(videos.updatedAt, cursor.updateAt),
+                    lt(videos.updatedAt, cursor.updatedAt),
                     and(
-                        eq(videos.updatedAt, cursor.updateAt),
+                        eq(videos.updatedAt, cursor.updatedAt),
                         lt(videos.id, cursor.id)
                         )
                     ): undefined,
@@ -66,7 +66,7 @@ export const studioRouter = createTRPCRouter({
             const nextCursor = hasMore?
             { 
                 id: lastItem.id,
-                updateAt: lastItem.updatedAt,
+                updatedAt: lastItem.updatedAt,
             }
             : null
 
